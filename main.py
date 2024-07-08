@@ -12,9 +12,12 @@ def home():
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-
-    driver.get("https://www.google.com")
-    title = driver.title
-    print(title)
-    driver.quit()
+    title = "not found"
+    try:
+        driver.get("https://www.google.com")
+        title = driver.title
+        print(title)
+    finally:
+        driver.quit()
+        
     return f"Title of the page is: {title}"

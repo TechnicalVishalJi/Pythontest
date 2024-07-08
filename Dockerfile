@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y \
     xvfb \
     libxi6 \
     libgconf-2-4 \
-    default-jdk
+    default-jdk \
+    python3-venv
 
 # Install Chrome
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
@@ -22,10 +23,14 @@ ENV DISPLAY=:99
 # Set work directory
 WORKDIR /app
 
+# Create and activate virtual environment
+RUN python3 -m venv venv
+ENV PATH="/app/venv/bin:$PATH"
+
 # Copy project files
 COPY . .
 
-# Install Python dependencies
+# Install Python dependencies within the virtual environment
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 5000
